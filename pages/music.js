@@ -181,8 +181,8 @@ export default function Example() {
               <p className='text-2xl py-6 person'>FM Radio</p>
               <p className='text-2xl py-6 person'>AM Radio</p>
               <p className='text-2xl py-6 person'>SiriusXM</p>
-              <p className='text-2xl py-6 person'>Spotify</p>
-              <p className='text-2xl person font-bold py-6  bg-gray-900'>Bluetooth</p>
+              <p className='text-2xl py-6 person font-bold bg-gray-900'>Spotify</p>
+              <p className='text-2xl py-6 person '>Bluetooth</p>
               <p className='text-2xl py-6 person'>Auxiliary</p>
               <p className='text-2xl py-6'></p>
             </li>

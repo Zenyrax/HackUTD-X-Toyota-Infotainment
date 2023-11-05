@@ -1,9 +1,10 @@
 import Header from '../components/header'
 import Footer from '../components/footer'
 import SimpleMap from '../components/map'
+import Script from "next/script"
 
 import '../styles/Profiles.module.css'
-import { Fragment, useState } from 'react'
+import { Fragment, useState, useEffect} from 'react'
 import { Dialog, Menu, Transition } from '@headlessui/react'
 import {
   MagnifyingGlassIcon,
@@ -13,6 +14,8 @@ import {
   BackwardIcon,
 } from '@heroicons/react/24/outline'
 import { Bars3Icon, ChevronRightIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
+import Autocomplete from "react-google-autocomplete";
+import { GoogleMap, Marker } from "react-google-maps"
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -51,8 +54,12 @@ export default function Example() {
   const [songProgress, setSongProgress] = useState(78);
   const [songLength, setSongLength] = useState(254);
   const [paused, setPaused] = useState(true);
-  const [searching, setSearching] = useState(true);
-  
+  const [searching, setSearching] = useState(false);
+
+  useEffect(() => {
+    <Script src={`https://maps.googleapis.com/maps/api/js?key=AIzaSyDQyZztRaq_LgKMsgIY0A2rBfQkVqJ0Jhw&libraries=places`}/>
+  }, [])
+
   return (
     <>
       <main className="bg">
@@ -61,9 +68,22 @@ export default function Example() {
           <ul role="list" className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-2">
             <li key={1} id={'1'}className="col-span-1 divide-y divide-gray-200 rounded-lg bg-gray-800 shadow text-black-800" style={{"height": "684px"}}>
               <SimpleMap/>
-              <div className="bg-gray-800 w-32 h-32 rounded-full notaperson" style={{"position": "absolute", "bottom": "40px", "left": "60px", "padding-top":"32px", "padding-left":"32px"}}>
+              {!searching && <div className="bg-gray-800 w-32 h-32 rounded-full notaperson" style={{"position": "absolute", "bottom": "40px", "left": "60px", "padding-top":"32px", "padding-left":"32px"}} onClick={(e) => setSearching(!searching)}>
                 <MagnifyingGlassIcon className="h-16 w-16 text-white" aria-hidden="true" />
-              </div>
+              </div>}
+              {searching && <div className="bg-gray-800 rounded-lg" style={{"position": "absolute", "top": "-1px", "left": "20px", "height": "685px", "width": "746px", "opacity": ".8", "margin-top": "0px", "border-top":"0px", "padding-left": "8px", "padding-right": "8px"}} >
+                <div>
+                  <Autocomplete
+                    className="block w-full rounded-t-lg bg-gray-800 text-white font-2xl shadow-sm placeholder:text-gray-100 h-16"
+                    placeholder="Where do you want to go?"
+                    style={{border:"0 0 1 0"}}
+                    apiKey={"AIzaSyDQyZztRaq_LgKMsgIY0A2rBfQkVqJ0Jhw"}
+                    onPlaceSelected={(place) => {
+                      console.log(place);
+                    }}
+                  />
+                </div>
+              </div>}
             </li>
             <li key={2} id={'2'}>
               <div key={3} className="col-span-1 divide-y divide-gray-200 rounded-lg bg-gray-800 shadow text-black-800" style={{"height": "330px"}}>
